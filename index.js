@@ -66,26 +66,27 @@
 
 // adding date & form features
 
-let today = new Date();
-let year = today.getFullYear();
-let month = today.getMonth();
-let days = today.getDate();
-let day = today.getDay();
+// let today = new Date();
+// let year = today.getFullYear();
+// let month = today.getMonth();
+// let days = today.getDate();
+// let day = today.getDay();
 
-let dayOfWeekArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-let monthOfYearArray = ['January', 'February', 'March','April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+// let dayOfWeekArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+// let monthOfYearArray = ['January', 'February', 'March','April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 //get date info
-let dayAndTime = document.querySelector('.weekday span');
+// let dayAndTime = document.querySelector('.weekday span');
 let todayDate = document.querySelector('.weekday small');
 
-dayAndTime.textContent = dayOfWeekArray[day];
-todayDate.textContent = `${monthOfYearArray[month]} ${days}, ${year}`;
+// dayAndTime.textContent = dayOfWeekArray[day];
 
 
 //display city searched
 let searchCity = document.querySelector('.search-city .city-input');
 let cityTitle = document.querySelector('.cityName h1');
+let referCity = document.querySelector('.referCity');
+let dayInfo = document.querySelector('.day-info');
 
 
 searchCity.addEventListener('change', () => {
@@ -102,9 +103,43 @@ let tempNumber = document.querySelector('.tempNumber');
 let desc = document.querySelector('.desc p');
 let humidity = document.querySelector('.humidity-num');
 let wind = document.querySelector('.wind-num');
+let temperature = document.querySelector('.tempNumber');
+let main = document.querySelector('.main')
+
+
+function changeBgColor(timeOfDay) {
+    if(timeOfDay > 18 || timeOfDay < 5) {
+        main.style.backgroundColor = '#4d4d8c52';
+    } else {
+        main.style.backgroundColor = '#fff'
+    }        
+}
+
 
 function showWeather(response) {
 
+    //time management
+    let lon = response.data.coord.lon;
+    let dt = response.data.dt;
+    let localTime = new Date(dt*1000);
+    let utcHour = localTime.getUTCHours();
+    let utcMin = localTime.getUTCMinutes();
+    let convertToHour = Math.floor(lon / 0.004167 / 3600);
+    let convertToMin = Math.floor((lon / 0.004167 / 3600 - convertToHour) * 60);
+    let thatLocalHour = utcHour + convertToHour;
+    let thatLocalMin = utcMin + convertToMin;
+
+    if(thatLocalMin >= 60) {
+        thatLocalMin = thatLocalMin - 60;
+        if(thatLocalMin < 10) {
+            thatLocalMin = `0${thatLocalMin}`;
+        }
+        thatLocalHour++;
+    }
+    changeBgColor(thatLocalHour);
+
+    todayDate.textContent = `≈${thatLocalHour}: ${thatLocalMin}`;
+    
     //cityName
     cityTitle.textContent = response.data.name;
     
@@ -125,6 +160,12 @@ function showWeather(response) {
     }
     //icon
     getWeatherIcon(response.data.weather[0].icon); //display main weather icon
+
+    //show the city name above "Today"
+    referCity.textContent = cityTitle.textContent;
+    let badge = `<span class="badge badge-pill badge-info">Now</span>`
+    referCity.insertAdjacentHTML("beforeend", badge)
+
 }
 
 

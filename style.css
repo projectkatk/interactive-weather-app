@@ -31,6 +31,10 @@ body {
     margin-top: 50px;
     text-align: center;
 }
+
+.form-control {
+    display: inline;
+}
 /* button */
 .searchButton, .geoButton {
     border: none;
@@ -85,7 +89,10 @@ body {
 
 .weather-icon {
     height: 100%;
-    padding: 40px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;   
 }
 
 .weather-icon .far {
@@ -95,16 +102,23 @@ body {
 }
 
 .day {
-    display: inline-block;
-    font-size: 40px;
+    display: block;
+    font-size: 40px;   
 }
 
-.weekday {
+.badge {
+    background-color: #8a76f9;
     display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+    font-size: 15px;
 }
+
+
 
 .weekday small {
     display: block;
+    font-size: 20px;
 }
 
 
@@ -120,7 +134,6 @@ body {
 }
 
 
-
 .temp .cel, .temp .tempNumber {
     color:#2b57cf;
 }
@@ -131,6 +144,10 @@ body {
    font-style:italic;
 }
 
+
+.tempNumber {
+    font-size: 50px;
+}
 
 .desc p {
     font-size: 30px;    
