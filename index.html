@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body>
-    <!-- entire container wrapping the card .. Used Bootstrap & CSS-->
+   <!-- entire container wrapping the card .. Used Bootstrap & CSS-->
    <div class="container">
        <div class="card">
            <div class="card-body">
@@ -23,8 +23,7 @@
                     <div class="col-lg-9 main-info">
                         <!-- city search & time section -->
                         <div class="cityName">
-                            <h1>City Name</h1>
-                            
+                            <h1>City Name</h1>                           
                         </div>
                         <div class="search-city form-group ">                           
                             <input class="form-control city-input d-sm-inline-block m-2" type="text" placeholder="type in the city name" />
@@ -44,7 +43,7 @@
                                 <div class="col-lg-8 day-info">
                                     <p class="day referCity">--</p>
                                     <div class="weekday m-3">
-                                        <!-- <span></span> -->
+                                        <span></span>
                                         <small></small>
                                     </div>        
                                     <div class="temp">
@@ -77,55 +76,19 @@
                     </div>
 
                     <!-- next 5 days forecast -->
-                    <div class="col-lg-3 side-info">
-                        <div class="forecast">
-                            <i class="fa fa-cloud fa-2x"></i>
-                            <div class="forecast-des">
-                                <span class="dayOne dayofWeek">FRI</span>
-                                <span class="dayOne-date date">21 JAN</span>
-                                <p class="f-temp dayOne-temp">22 <span>°C</span></p>
-                            </div>
-                        </div>
-                        <div class="forecast">
-                            <i class="fas fa-sun fa-2x"></i>
-                            <div class="forecast-des">
-                                <span class="dayTwo dayofWeek">SAT</span>
-                                <span class="dayTwo-date date">22 JAN</span>
-                                <p class="f-temp dayTwo-temp">15 <span>°C</span></p>
-                            </div>
-                        </div>
-                        <div class="forecast">
-                            <i class="fas fa-sun fa-2x"></i>
-                            <div class="forecast-des">
-                                <span class="dayThree dayofWeek">SUN</span>
-                                <span class="dayThree-date date">23 JAN</span>
-                                <p class="f-temp dayThree-temp">22 <span>°C</span></p>
-                            </div>
-                        </div>
-                        <div class="forecast">
-                            <i class="fa fa-cloud fa-2x"></i>
-                            <div class="forecast-des">
-                                <span class="dayFour dayofWeek">MON</span>
-                                <span class="dayFour-date date">24 JAN</span>
-                                <p class="f-temp dayFour-temp">18 <span>°C</span></p>
-                            </div>
-                        </div>
-                        <div class="forecast">
-                            <i class="fas fa-cloud-rain fa-2x"></i>
-                            <div class="forecast-des">
-                                <span class="dayFive dayofWeek">TUE</span>
-                                <span class="dayFive-date date">25 JAN</span>
-                                <p class="f-temp dayFive-temp">25 <span>°C</span></p>
-                            </div>
-                        </div>
+                    <div class="col-lg-3 side-info" id="forecast">
+                       
                     </div>
                 </div>
            </div>
        </div>   
-       <div class="d-flex justify-content-end">
-        <a  class="btn btn-dark text-white d-inline-block mt-5" href="https://github.com/projectkatk/interactive-weather-app" target="_blank">Go to my Github</a>
+       <div class="d-flex justify-content-center">
+        <a  class="link btn btn-light d-inline-block mt-5" href="https://github.com/projectkatk/interactive-weather-app" target="_blank">Go to my Github</a>
        </div>    
    </div>
+   <footer>
+       <small class="footerText">Design & Code by Frontee Kate</small>
+   </footer>
    
    <script src="index.js">
        

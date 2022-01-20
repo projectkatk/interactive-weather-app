@@ -2,12 +2,12 @@ body {
     width: 90%;
     height: 100%;
     margin: 5% auto;    
-    background: radial-gradient(circle at 4.3% 10.7%, #8a76f9 13.6%, #4bfceb 100.7%);
+    background: radial-gradient(circle at 4.3% 10.7%, #d7d1ff 13.6%, #7de0d6d0 100.7%);
 }
 
 /* the whole card general styling */
 .container .card {
-    background:#ffffffe0;
+    background:#e6f5f85d;
     border: none;
     border-radius: 10px;
     box-shadow: 3px 3px 10px #3f193f36;
@@ -76,7 +76,8 @@ body {
 }
 
 .main {
-    background: #fff;
+    background: linear-gradient(to bottom, #3c7aff93,#608dee93,#8cd8d88e, #eef1f38e);
+    /* color: #4c5e92 */
 }
 
 .weather-icon, .day-info {
@@ -135,7 +136,7 @@ body {
 
 
 .temp .cel, .temp .tempNumber {
-    color:#2b57cf;
+    color:#416fec;
 }
 
 
@@ -171,7 +172,7 @@ body {
 }
 
 .humidity {
-    background: #93e9f5;
+    background: linear-gradient(45deg, #9e8ef762 13.6%, #7cd0d65e 100.7%);
     text-align: center;   
     padding-top: 20px;
 }
@@ -185,7 +186,7 @@ body {
 .wind-info {
     text-align: center;
     padding-top: 20px;
-    background: #ffe2e7;
+    background: linear-gradient(45deg, #9e8ef762 13.6%, #7cd0d65e 100.7%);
 }
 
 /* forecast for the next 5 days */
@@ -207,8 +208,9 @@ body {
 }
 
 .forecast:hover {
-    background-color:#ffffffca;
+    background-color:#ffffff41;
     cursor: pointer;
+    transition: all 0.5s ease;
 }
 
 .forecast i{
@@ -221,7 +223,8 @@ body {
 .forecast-des {
     display: inline-block;
     width: 200px;
-    text-align: right;
+    text-align: center;
+    vertical-align: middle;
 }
 
 .forecast .date {
@@ -229,15 +232,23 @@ body {
 }
 
 .f-temp {
-    display: inline-block;
+    display: block;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 12px;
     margin-left: 10px;
-    width: 70px;
     padding: 5px 10px;
+    color: #808080;
 }
 
 
+.link:hover{
+    background-color: #b8b0e0;    
+}
 
+.footerText {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+}
 
 
