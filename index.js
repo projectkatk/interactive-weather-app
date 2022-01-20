@@ -8,6 +8,10 @@ let cityTitle = document.querySelector('.cityName h1');
 let referCity = document.querySelector('.referCity');
 let dayInfo = document.querySelector('.day-info');
 
+let feh = document.querySelector('.feh');
+let cel = document.querySelector('.cel');
+let tempNumber = document.querySelector('.tempNumber');
+
 let forecast = document.querySelector('#forecast');
 
 let apiKey = '7fc88c26f448c3db4496280b2ac2cb99';
@@ -21,6 +25,9 @@ searchCity.addEventListener('change', () => {
     cityTitle.textContent = searchCity.value[0].toUpperCase() + searchCity.value.slice(1);  
     main.style.background = 'linear-gradient(to bottom, #3c7aff93,#608dee93,#8cd8d88e, #eef1f38e)';  
     main.style.color = '#000';
+    cel.style.color = '#416fec';
+    feh.style.color = '#000';
+
     if(searchCity.value) {
         getCityWeather();
         searchCity.value = '';
@@ -29,7 +36,6 @@ searchCity.addEventListener('change', () => {
 
 
 //display weather info upon main weather API
-let tempNumber = document.querySelector('.tempNumber');
 let desc = document.querySelector('.desc p');
 let humidity = document.querySelector('.humidity-num');
 let wind = document.querySelector('.wind-num');
@@ -156,14 +162,12 @@ function getWeatherIcon(weatherIcon) {
 
 // change from c to f  or f to c temp
 function convertTemp(mainTemp) {
-  let feh = document.querySelector('.feh');
-  let cel = document.querySelector('.cel');
-  let tempNumber = document.querySelector('.tempNumber');
+  
 
   feh.addEventListener('click', () => {
     tempNumber.textContent =Math.round((mainTemp* 9) / 5 + 32); 
     feh.style.color = '#416fec';
-    cel.style.color = 'black';
+    cel.style.color = 'black';    
   })
 
   cel.addEventListener('click', () => {
