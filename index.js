@@ -14,7 +14,7 @@ let tempNumber = document.querySelector('.tempNumber');
 
 let forecast = document.querySelector('#forecast');
 
-let apiKey = '7fc88c26f448c3db4496280b2ac2cb99';
+let apiKey = '93b012836cf6db0724670ae0534089d1';
 let units = 'metric';
 
 let dayOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
