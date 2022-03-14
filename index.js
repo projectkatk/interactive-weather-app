@@ -45,7 +45,6 @@ const main = document.querySelector('.main')
 
 function changeBgColor(timeOfDay) {
     if(timeOfDay >= 18 || timeOfDay < 5) {
-        console.log(timeOfDay)
         main.style.background = 'linear-gradient(to bottom, #182755a9, #000)';
         main.style.color = '#fff'
     } else {
@@ -222,18 +221,18 @@ function getHourlyTemp(response) {
                 borderWidth: 1,
                 data: newTemps,
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.8)',
-                    'rgba(54, 162, 235, 0.8)',
-                    'rgba(255, 206, 86, 0.8)',
-                    'rgba(75, 192, 192, 0.8)',
-                    'rgba(153, 102, 255, 0.8)',
-                    'rgba(255, 159, 64, 0.8)',
-                    'rgba(245, 40, 145, 0.8)',
-                    'rgba(58, 140, 145, 0.8)',
-                    'rgba(58, 177, 20, 0.8)',
-                    'rgba(64, 206, 216, 0.8)',
-                    'rgba(211, 146, 27, 0.8)',
-                    'rgba(237, 237, 14, 0.8)'
+                    'rgb(93, 63, 211, 0.5)',
+                    'rgb(93, 63, 211, 0.5)',
+                    'rgb(93, 63, 211, 0.5)',
+                    'rgb(93, 63, 211, 0.5)',
+                    'rgb(93, 63, 211, 0.5)',
+                    'rgb(93, 63, 211, 0.5)',
+                    'rgb(93, 63, 211, 0.5)',
+                    'rgb(93, 63, 211, 0.5)',
+                    'rgb(93, 63, 211, 0.5)',
+                    'rgb(93, 63, 211, 0.5)',
+                    'rgb(93, 63, 211, 0.5)',
+                    'rgb(93, 63, 211, 0.5)',
                 ]
             }]
         },
@@ -254,8 +253,6 @@ function getHourlyTemp(response) {
             },
         }
     });  
-    console.log(myChart)
-
 }
 
 
