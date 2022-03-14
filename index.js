@@ -1,23 +1,23 @@
 
-let todayDate = document.querySelector('.weekday small');
-let dayToday = document.querySelector('.weekday span')
+const todayDate = document.querySelector('.weekday small');
+const dayToday = document.querySelector('.weekday span')
 
 //display city searched
-let searchCity = document.querySelector('.search-city .city-input');
-let cityTitle = document.querySelector('.cityName h1');
-let referCity = document.querySelector('.referCity');
-let dayInfo = document.querySelector('.day-info');
+const searchCity = document.querySelector('.search-city .city-input');
+const cityTitle = document.querySelector('.cityName h1');
+const referCity = document.querySelector('.referCity');
+const dayInfo = document.querySelector('.day-info');
 
-let feh = document.querySelector('.feh');
-let cel = document.querySelector('.cel');
-let tempNumber = document.querySelector('.tempNumber');
+const feh = document.querySelector('.feh');
+const cel = document.querySelector('.cel');
+const tempNumber = document.querySelector('.tempNumber');
 
-let forecast = document.querySelector('#forecast');
+const forecast = document.querySelector('#forecast');
 
-let apiKey = '7fc88c26f448c3db4496280b2ac2cb99';
-let units = 'metric';
+const apiKey = '93b012836cf6db0724670ae0534089d1';
+const units = 'metric';
 
-let dayOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const dayOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 
 
@@ -36,15 +36,16 @@ searchCity.addEventListener('change', () => {
 
 
 //display weather info upon main weather API
-let desc = document.querySelector('.desc p');
-let humidity = document.querySelector('.humidity-num');
-let wind = document.querySelector('.wind-num');
-let temperature = document.querySelector('.tempNumber');
-let main = document.querySelector('.main')
+const desc = document.querySelector('.desc p');
+const humidity = document.querySelector('.humidity-num');
+const wind = document.querySelector('.wind-num');
+const temperature = document.querySelector('.tempNumber');
+const main = document.querySelector('.main')
 
 
 function changeBgColor(timeOfDay) {
-    if(timeOfDay > 18 || timeOfDay < 5) {
+    if(timeOfDay >= 18 || timeOfDay < 5) {
+        console.log(timeOfDay)
         main.style.background = 'linear-gradient(to bottom, #182755a9, #000)';
         main.style.color = '#fff'
     } else {
@@ -55,28 +56,28 @@ function changeBgColor(timeOfDay) {
 
 // show the entire weather info including main & forecast
 
+function extractCurrentTime(response) {
+    let currentTime = new Date().toLocaleString("en-US", {weekday: 'short', day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: `${response.data.timezone}`}); // get local time through conversion
+
+    todayDate.textContent = `${currentTime}`;   
+    
+    let thatLocalHour;
+    const afternoon = 'PM';
+    const dateText = todayDate.textContent;
+    if(dateText.slice(-2) === afternoon) {
+        thatLocalHour = parseInt(dateText.slice(-8,-6)) + 12;
+    } else {
+        thatLocalHour = parseInt(dateText.slice(-8,-6))
+    }
+    changeBgColor(thatLocalHour);
+}
+
+
 function showWeather(response) {
     //time management
     let lon = response.data.coord.lon;
     let lat = response.data.coord.lat;
-    let dt = response.data.dt;
-    let localTime = new Date(dt*1000);
-    let utcHour = localTime.getUTCHours();
-    let utcMin = localTime.getUTCMinutes();
-    let convertToHour = Math.floor(lon / 0.004167 / 3600);
-    let convertToMin = Math.floor((lon / 0.004167 / 3600 - convertToHour) * 60);
-    let thatLocalHour = utcHour + convertToHour;
-    let thatLocalMin = utcMin + convertToMin;
-
-
-    if(thatLocalMin >= 60) {
-        thatLocalMin = thatLocalMin - 60;
-        if(thatLocalMin < 10) {
-            thatLocalMin = `0${thatLocalMin}`;
-        }
-        thatLocalHour++;
-    }
-    changeBgColor(thatLocalHour);
+      
 
     
     //cityName
@@ -114,7 +115,6 @@ function showWeather(response) {
         getForecast(apiKey, lat, lon);
     }
 }
-
 
 
 // Get main weather info from open weather API==================================================================
@@ -179,15 +179,83 @@ function convertTemp(mainTemp) {
 
 // forecast management===================================================================
 
+//using extract time data from the forecast to show current local time
+
+
+
 function showForecast(response) {
+    getHourlyTemp(response)
     let forecastArray = response.data.daily;
-    let current = response.data;
+    extractCurrentTime(response) //to use the response timezone for current time display
+    displayForecast(response.data, forecastArray);    
+}
 
-    let currentTime = new Date().toLocaleString("en-US", {weekday: 'short', day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: `${current.timezone}`}); // get local time through conversion
 
-    todayDate.textContent = `${currentTime}`;    
+// Draw a 12 hour forecast chart //
+function getHourlyTemp(response) {
+    const hourlyDataArray = response.data.hourly;   
+    let newHours = [];
+    let newTemps = [];
+    const tempGraph = document.getElementById('myChart');
 
-    displayForecast(current, forecastArray);    
+
+    for(let i = 0; i < 12; i++) {
+        let hourly = new Date(hourlyDataArray[i].dt*1000).toLocaleString("en-US", {hour: '2-digit' , timeZone: `${response.data.timezone}`});
+       newHours.push(hourly)
+       newTemps.push(hourlyDataArray[i].temp)
+    }
+
+    const ctx = tempGraph.getContext('2d');
+    tempGraph.style.display = 'block';
+    let chartStatus = Chart.getChart('myChart');
+    if(chartStatus !== undefined) {
+        chartStatus.destroy();
+    }
+
+    const myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: newHours,
+            datasets: [{
+                label: '12 hours Forecast (°C)',
+                pointRadius: 4,
+                borderWidth: 1,
+                data: newTemps,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(153, 102, 255, 0.8)',
+                    'rgba(255, 159, 64, 0.8)',
+                    'rgba(245, 40, 145, 0.8)',
+                    'rgba(58, 140, 145, 0.8)',
+                    'rgba(58, 177, 20, 0.8)',
+                    'rgba(64, 206, 216, 0.8)',
+                    'rgba(211, 146, 27, 0.8)',
+                    'rgba(237, 237, 14, 0.8)'
+                ]
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(255,255,255, 0.5)'
+                    }
+                },
+                x: {
+                    grid: {
+                        color: 'transparent'
+                    }
+                }
+
+            },
+        }
+    });  
+    console.log(myChart)
+
 }
 
 
@@ -203,22 +271,21 @@ function displayForecast(current, forecastArray) {
                             <div class="forecast-des">
                                 <span class="dayOne dayofWeek">${forecastDay}</span>
                                 <span class="dayOne-date date">${forecastDate} ${forecastMonth}</span>
-                                <p class="f-temp dayOne-temp">Min: ${forecastArray[i].temp.min}°    Max: ${forecastArray[i].temp.max}°</p>
+                                <p class="f-temp dayOne-temp">${forecastArray[i].temp.min}°C |   ${forecastArray[i].temp.max}°C</p>
                             </div>
                         </div>`
         forecast.innerHTML += forecastHTML;
     }
+    forecast.insertAdjacentHTML('afterbegin', '<h5 class="text-center mt-3 mb-2 text-dark p-2">Next 5 days Forecast</h5>')
 }
 
 //get forecast data through all in one API
 function getForecast(apiKey, lat, lon) {
-    let forecastURL =  `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&units=${units}&appid=${apiKey}`
+    let forecastURL =  `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely&units=${units}&appid=${apiKey}`
     
     axios.get(forecastURL)
      .then(showForecast)   
  }
-
-   
 
 
 
