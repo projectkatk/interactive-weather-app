@@ -1,6 +1,6 @@
 
 const todayDate = document.querySelector('.weekday small');
-const dayToday = document.querySelector('.weekday span')
+const dayToday = document.querySelector('.weekday span');
 
 //display city searched
 const searchCity = document.querySelector('.search-city .city-input');
@@ -22,6 +22,9 @@ const dayOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 
 searchCity.addEventListener('change', () => {
+    if(searchCity.value === 'melbourne' || searchCity.value === 'Melbourne') {
+        searchCity.value += ', AU';
+    }
     cityTitle.textContent = searchCity.value[0].toUpperCase() + searchCity.value.slice(1);  
     main.style.background = 'linear-gradient(to bottom, #3c7aff93,#608dee93,#8cd8d88e, #eef1f38e)';  
     main.style.color = '#000';
@@ -40,13 +43,13 @@ const desc = document.querySelector('.desc p');
 const humidity = document.querySelector('.humidity-num');
 const wind = document.querySelector('.wind-num');
 const temperature = document.querySelector('.tempNumber');
-const main = document.querySelector('.main')
+const main = document.querySelector('.main');
 
 
 function changeBgColor(timeOfDay) {
     if(timeOfDay >= 18 || timeOfDay < 5) {
         main.style.background = 'linear-gradient(to bottom, #182755a9, #000)';
-        main.style.color = '#fff'
+        main.style.color = '#fff';
     } else {
         main.style.background = 'linear-gradient(to bottom, #3c7aff93,#608dee93,#8cd8d88e, #eef1f38e)';  
         main.style.color = '#000';
@@ -66,7 +69,7 @@ function extractCurrentTime(response) {
     if(dateText.slice(-2) === afternoon) {
         thatLocalHour = parseInt(dateText.slice(-8,-6)) + 12;
     } else {
-        thatLocalHour = parseInt(dateText.slice(-8,-6))
+        thatLocalHour = parseInt(dateText.slice(-8,-6));
     }
     changeBgColor(thatLocalHour);
 }
@@ -75,12 +78,11 @@ function extractCurrentTime(response) {
 function showWeather(response) {
     //time management
     let lon = response.data.coord.lon;
-    let lat = response.data.coord.lat;
-      
+    let lat = response.data.coord.lat;     
 
     
     //cityName
-    cityTitle.textContent = response.data.name;
+    cityTitle.textContent = response.data.name;    
     
     // temperature
     tempNumber.textContent = Math.round(response.data.main.temp);
@@ -103,7 +105,7 @@ function showWeather(response) {
     //show the city name above "Today"
     referCity.textContent = cityTitle.textContent;
     let badge = `<span class="badge badge-pill badge-info">Now</span>`
-    referCity.insertAdjacentHTML("beforeend", badge)
+    referCity.insertAdjacentHTML("beforeend", badge);
 
 
     //display forecast
@@ -123,7 +125,7 @@ function getCityWeather() {
     let weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${nameOfCity}&appid=${apiKey}&units=${units}`;   
 
     axios.get(weatherApiUrl)
-        .then(showWeather)
+        .then(showWeather);
 }
 // ================================================================================================================
 
@@ -146,7 +148,7 @@ function getCurrentPositionWeather(apiKey) {
         changeBgColor(localHour);
 
         axios.get(geolocationApiUrl)
-        .then(showWeather)
+        .then(showWeather);
     }
     navigator.geolocation.getCurrentPosition(handlePosition);    
 }
@@ -156,12 +158,11 @@ function getCurrentPositionWeather(apiKey) {
 //get weather Icon
 function getWeatherIcon(weatherIcon) {
     let mainIcon = document.querySelector('.weather-icon');
-    mainIcon.innerHTML = `<img src="http://openweathermap.org/img/wn/${weatherIcon}@2x.png"} alt="icon"/>`
+    mainIcon.innerHTML = `<img src="http://openweathermap.org/img/wn/${weatherIcon}@2x.png"} alt="icon"/>`;
 }
 
 // change from c to f  or f to c temp
-function convertTemp(mainTemp) {
-  
+function convertTemp(mainTemp) { 
 
   feh.addEventListener('click', () => {
     tempNumber.textContent =Math.round((mainTemp* 9) / 5 + 32); 
@@ -180,10 +181,8 @@ function convertTemp(mainTemp) {
 
 //using extract time data from the forecast to show current local time
 
-
-
 function showForecast(response) {
-    getHourlyTemp(response)
+    getHourlyTemp(response);
     let forecastArray = response.data.daily;
     extractCurrentTime(response) //to use the response timezone for current time display
     displayForecast(response.data, forecastArray);    
@@ -200,8 +199,8 @@ function getHourlyTemp(response) {
 
     for(let i = 0; i < 12; i++) {
         let hourly = new Date(hourlyDataArray[i].dt*1000).toLocaleString("en-US", {hour: '2-digit' , timeZone: `${response.data.timezone}`});
-       newHours.push(hourly)
-       newTemps.push(hourlyDataArray[i].temp)
+       newHours.push(hourly);
+       newTemps.push(hourlyDataArray[i].temp);
     }
 
     const ctx = tempGraph.getContext('2d');
@@ -270,18 +269,18 @@ function displayForecast(current, forecastArray) {
                                 <span class="dayOne-date date">${forecastDate} ${forecastMonth}</span>
                                 <p class="f-temp dayOne-temp">${forecastArray[i].temp.min}°C |   ${forecastArray[i].temp.max}°C</p>
                             </div>
-                        </div>`
+                        </div>`;
         forecast.innerHTML += forecastHTML;
     }
-    forecast.insertAdjacentHTML('afterbegin', '<h5 class="text-center mt-3 mb-2 text-dark p-2">Next 5 days Forecast</h5>')
+    forecast.insertAdjacentHTML('afterbegin', '<h5 class="text-center mt-3 mb-2 text-dark p-2">Next 5 days Forecast</h5>');
 }
 
 //get forecast data through all in one API
 function getForecast(apiKey, lat, lon) {
-    let forecastURL =  `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely&units=${units}&appid=${apiKey}`
+    let forecastURL =  `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely&units=${units}&appid=${apiKey}`;
     
     axios.get(forecastURL)
-     .then(showForecast)   
+     .then(showForecast);   
  }
 
 
